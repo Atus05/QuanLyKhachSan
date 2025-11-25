@@ -1,0 +1,99 @@
+﻿@model IEnumerable<QuanLyKhachSan.Models.Phong>
+
+@{
+    ViewBag.Title = "Quản lý Phòng";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Quản lý Phòng</h2>
+
+<p>
+    @Html.ActionLink("➕ Thêm Phòng Mới", "Create", null, new { @class = "btn btn-primary mb-3" })
+</p>
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success" role="alert">
+        @TempData["SuccessMessage"]
+    </div>
+}
+
+<div class="table-responsive">
+    <table class="table table-bordered table-hover shadow-sm">
+        <thead class="table-dark">
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.SoPhong)</th>
+                <th>@Html.DisplayNameFor(model => model.LoaiPhong.TenLoai)</th> @* Hiển thị Tên Loại Phòng *@
+                <th>@Html.DisplayNameFor(model => model.GiaPhong)</th>
+                <th>@Html.DisplayNameFor(model => model.TinhTrang)</th>
+                <th>@Html.DisplayNameFor(model => model.MoTa)</th>
+                <th>Thao tác</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => item.SoPhong)</td>
+                    <td>@Html.DisplayFor(modelItem => item.LoaiPhong.TenLoai)</td>
+                    <td>@item.GiaPhong.ToString("N0") ₫</td> @* Định dạng tiền tệ *@
+                    <td>
+                        @* Thêm style để làm nổi bật Tình Trạng *@
+                        @{
+                            string badgeClass = "";
+                            switch (item.TinhTrang)
+                            {
+                                case "Trống":
+                                    badgeClass = "bg-success";
+                                    break;
+                                case "Đang dọn":
+                                    badgeClass = "bg-warning text-dark";
+                                    break;
+                                case "Đang ở":
+                                    badgeClass = "bg-danger";
+                                    break;
+                                default:
+                                    badgeClass = "bg-secondary";
+                                    break;
+                            }
+                        }
+                        <span class="badge @badgeClass">@Html.DisplayFor(modelItem => item.TinhTrang)</span>
+                    </td>
+                    <td>@Html.DisplayFor(modelItem => item.MoTa)</td>
+                    <td class="text-nowrap">
+                        @Html.ActionLink("Sửa", "Edit", new { id = item.PhongId }, new { @class = "btn btn-sm btn-warning me-2" })
+                        <button type="button" class="btn btn-sm btn-danger btn-delete"
+                                data-id="@item.PhongId" data-sophong="@item.SoPhong">
+                            Xóa
+                        </button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@section scripts {
+    <script>
+        $(document).ready(function () {
+            $('.btn-delete').click(function () {
+                var phongId = $(this).data('id');
+                var soPhong = $(this).data('sophong');
+
+                if (confirm('Bạn có chắc chắn muốn xóa Phòng số: ' + soPhong + ' không?')) {
+                    $.post('@Url.Action("DeleteConfirmed", "Phong")', { id: phongId })
+                        .done(function (response) {
+                            if (response.success) {
+                                window.location.reload();
+                            } else {
+                                alert('Lỗi khi xóa: ' + response.message);
+                            }
+                        })
+                        .fail(function (xhr, status, error) {
+                            alert('Đã xảy ra lỗi hệ thống.');
+                        });
+                }
+            });
+        });
+    </script>
+}

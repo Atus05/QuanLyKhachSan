@@ -1,0 +1,94 @@
+﻿@model IEnumerable<QuanLyKhachSan.Models.DatPhong>
+
+@{
+    ViewBag.Title = "Quản lý Đặt Phòng";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Quản lý Đặt Phòng Hiện Tại</h2>
+<p class="text-muted">Danh sách các đơn hàng đã xác nhận và đang được sử dụng.</p>
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success" role="alert">
+        @TempData["SuccessMessage"]
+    </div>
+}
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger" role="alert">
+        @TempData["ErrorMessage"]
+    </div>
+}
+
+<div class="table-responsive">
+    <table class="table table-bordered table-hover shadow-sm">
+        <thead class="table-dark">
+            <tr>
+                <th>Mã Đơn</th>
+                <th>Khách hàng</th>
+                <th>Check-in</th>
+                <th>Check-out</th>
+                <th>Ngày Đặt</th>
+                <th>Trạng Thái</th>
+                <th>Thao tác</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>#@Html.DisplayFor(modelItem => item.DatPhongId)</td>
+                    <td>@Html.DisplayFor(modelItem => item.NguoiDung.HoTen)</td>
+                    <td>@item.NgayCheckIn.ToString("dd/MM/yyyy")</td>
+                    <td>@item.NgayCheckOut.ToString("dd/MM/yyyy")</td>
+                    <td>@item.NgayDat.ToString("dd/MM/yyyy")</td>
+                    <td>
+                        @{
+                            string badgeClass = "";
+                            string buttonText = "";
+                            string actionLink = "";
+                            string buttonClass = "";
+
+                            if (item.TrangThai == "Đã xác nhận")
+                            {
+                                badgeClass = "bg-info text-dark";
+                                buttonText = "Check-in";
+                                actionLink = Url.Action("CheckInConfirmed", "DatPhong", new { id = item.DatPhongId });
+                                buttonClass = "btn-success btn-checkin";
+                            }
+                            else if (item.TrangThai == "Đang ở")
+                            {
+                                badgeClass = "bg-danger";
+                                buttonText = "Thanh toán/Check-out";
+                                actionLink = Url.Action("CheckOut", "DatPhong", new { id = item.DatPhongId });
+                                buttonClass = "btn-warning";
+                            }
+                        }
+                        <span class="badge @badgeClass">@Html.DisplayFor(modelItem => item.TrangThai)</span>
+                    </td>
+                    <td class="text-nowrap">
+                        @if (item.TrangThai == "Đã xác nhận")
+                        {
+                            @* Nút Check-in (dùng POST để thay đổi trạng thái) *@
+                            <form action="@actionLink" method="post" style="display:inline;" onsubmit="return confirm('Xác nhận Check-in cho đơn hàng #@item.DatPhongId?');">
+                                @Html.AntiForgeryToken()
+                                <button type="submit" class="btn btn-sm @buttonClass me-2">
+                                    <i class="bi bi-box-arrow-in-right"></i> @buttonText
+                                </button>
+                            </form>
+                        }
+                        else if (item.TrangThai == "Đang ở")
+                        {
+                            @* Nút Check-out (chuyển sang trang thanh toán) *@
+                            @Html.ActionLink(buttonText, "CheckOut", new { id = item.DatPhongId }, new { @class = "btn btn-sm " + buttonClass })
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@* Lưu ý: Bạn cần thêm View cho Quản lý Dịch vụ để có thể thêm dịch vụ sử dụng sau khi Check-in *@

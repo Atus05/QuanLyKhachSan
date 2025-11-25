@@ -1,0 +1,85 @@
+﻿@model QuanLyKhachSan.Models.Phong
+
+@{
+    ViewBag.Title = "Sửa Phòng";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Sửa Phòng Số: @Model.SoPhong</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="card p-4 shadow-sm">
+        @Html.ValidationSummary(true, "", new { @class = "alert alert-danger" })
+        @Html.HiddenFor(model => model.PhongId) @* Bắt buộc phải có ID *@
+
+        @* Trường Số Phòng *@
+        <div class="mb-3 row">
+            @Html.LabelFor(model => model.SoPhong, htmlAttributes: new { @class = "col-md-3 col-form-label" })
+            <div class="col-md-9">
+                @Html.EditorFor(model => model.SoPhong, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.SoPhong, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        @* Trường Loại Phòng (Dropdown) *@
+        <div class="mb-3 row">
+            @Html.LabelFor(model => model.LoaiPhongId, "Loại Phòng", new { @class = "col-md-3 col-form-label" })
+            <div class="col-md-9">
+                @Html.DropDownList("LoaiPhongId", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.LoaiPhongId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        @* Trường Giá Phòng *@
+        <div class="mb-3 row">
+            @Html.LabelFor(model => model.GiaPhong, htmlAttributes: new { @class = "col-md-3 col-form-label" })
+            <div class="col-md-9">
+                @Html.EditorFor(model => model.GiaPhong, new { htmlAttributes = new { @class = "form-control", @type = "number", @min = "0" } })
+                @Html.ValidationMessageFor(model => model.GiaPhong, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        @* Trường Tình Trạng (Dropdown cho các trạng thái cố định) *@
+        <div class="mb-3 row">
+            @Html.LabelFor(model => model.TinhTrang, htmlAttributes: new { @class = "col-md-3 col-form-label" })
+            <div class="col-md-9">
+                @{
+                    List<SelectListItem> trangThaiList = new List<SelectListItem>
+                        {
+                        new SelectListItem { Text = "Trống", Value = "Trống" },
+                        new SelectListItem { Text = "Đang dọn", Value = "Đang dọn" },
+                        new SelectListItem { Text = "Ngừng hoạt động", Value = "Ngừng hoạt động" },
+                        // Trạng thái 'Đang ở' không nên sửa thủ công, chỉ được thay đổi khi Check-in/Check-out
+                    };
+                }
+                @Html.DropDownListFor(model => model.TinhTrang, new SelectList(trangThaiList, "Value", "Text", Model.TinhTrang), new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.TinhTrang, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        @* Trường Mô Tả *@
+        <div class="mb-3 row">
+            @Html.LabelFor(model => model.MoTa, htmlAttributes: new { @class = "col-md-3 col-form-label" })
+            <div class="col-md-9">
+                @Html.TextAreaFor(model => model.MoTa, new { @class = "form-control", rows = 3 })
+                @Html.ValidationMessageFor(model => model.MoTa, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="mb-3 row">
+            <div class="col-md-9 offset-md-3">
+                <button type="submit" class="btn btn-warning me-2">
+                    <i class="bi bi-pencil-square me-1"></i> Cập nhật
+                </button>
+                @Html.ActionLink("Trở về Danh sách", "Index", null, new { @class = "btn btn-secondary" })
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

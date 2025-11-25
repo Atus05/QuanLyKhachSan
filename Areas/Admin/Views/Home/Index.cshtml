@@ -1,0 +1,104 @@
+﻿@{
+    ViewData["Title"] = "Dashboard";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml"; // Phải chỉ định Layout
+}
+
+<h1 class="mb-4"><i class="fa-solid fa-gauge me-2 text-primary"></i> Dashboard Khách Sạn</h1>
+<hr />
+
+<div class="row g-4">
+    <div class="col-lg-3 col-md-6">
+        <div class="card bg-primary text-white shadow">
+            <div class="card-body">
+                <div class="row align-items-center">
+                    <div class="col-8">
+                        <h5 class="card-title text-uppercase mb-0">Phòng Trống</h5>
+                        <h2 class="display-4 fw-bold">12</h2>
+                    </div>
+                    <div class="col-4 text-end">
+                        <i class="fa-solid fa-check-circle fa-3x"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-3 col-md-6">
+        <div class="card bg-warning text-dark shadow">
+            <div class="card-body">
+                <div class="row align-items-center">
+                    <div class="col-8">
+                        <h5 class="card-title text-uppercase mb-0">Đặt Phòng Mới</h5>
+                        <h2 class="display-4 fw-bold">5</h2>
+                    </div>
+                    <div class="col-4 text-end">
+                        <i class="fa-solid fa-calendar-alt fa-3x"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-3 col-md-6">
+        <div class="card bg-success text-white shadow">
+            <div class="card-body">
+                <div class="row align-items-center">
+                    <div class="col-8">
+                        <h5 class="card-title text-uppercase mb-0">Doanh Thu Hôm Nay</h5>
+                        <h2 class="display-4 fw-bold">15M</h2>
+                    </div>
+                    <div class="col-4 text-end">
+                        <i class="fa-solid fa-dollar-sign fa-3x"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-3 col-md-6">
+        <div class="card bg-info text-white shadow">
+            <div class="card-body">
+                <div class="row align-items-center">
+                    <div class="col-8">
+                        <h5 class="card-title text-uppercase mb-0">Khách Hàng Mới</h5>
+                        <h2 class="display-4 fw-bold">8</h2>
+                    </div>
+                    <div class="col-4 text-end">
+                        <i class="fa-solid fa-user-plus fa-3x"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-5">
+    <div class="col-lg-7">
+        <div class="card shadow">
+            <div class="card-header bg-secondary text-white">
+                <i class="fa-solid fa-chart-bar me-2"></i> Biểu đồ Doanh thu (Tháng)
+            </div>
+            <div class="card-body">
+                <p class="text-muted">Bạn có thể tích hợp thư viện biểu đồ như Chart.js hoặc Plotly ở đây.</p>
+                <div style="height: 300px; background-color: #f8f9fa; border: 1px dashed #ced4da;">
+                    [Khu vực Biểu đồ]
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-5">
+        <div class="card shadow">
+            <div class="card-header bg-danger text-white">
+                <i class="fa-solid fa-exclamation-triangle me-2"></i> Lịch Sử Đặt Phòng Gần Đây
+            </div>
+            <div class="card-body">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">Khách: **Nguyễn Văn A** - Phòng: 101 - **Đã Check-in**</li>
+                    <li class="list-group-item">Khách: **Trần Thị B** - Phòng: 205 - **Chờ Xác nhận**</li>
+                    <li class="list-group-item">Khách: **Lê Văn C** - Phòng: 302 - **Đã Hủy**</li>
+                </ul>
+                <a href="/Admin/Booking" class="btn btn-outline-secondary btn-sm mt-3">Xem tất cả đơn đặt phòng</a>
+            </div>
+        </div>
+    </div>
+</div>

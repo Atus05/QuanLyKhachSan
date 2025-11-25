@@ -1,0 +1,56 @@
+﻿@model IEnumerable<QuanLyKhachSan.Models.NguoiDung>
+
+@{
+    ViewBag.Title = "Quản lý Khách Hàng";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Quản lý Khách Hàng</h2>
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success" role="alert">
+        @TempData["SuccessMessage"]
+    </div>
+}
+
+<div class="table-responsive">
+    <table class="table table-bordered table-hover shadow-sm">
+        <thead class="table-dark">
+            <tr>
+                <th>Họ Tên</th>
+                <th>Tên Đăng Nhập</th>
+                <th>Email</th>
+                <th>Vai Trò</th>
+                <th>Trạng Thái</th>
+                <th>Ngày Tạo</th>
+                <th>Thao tác</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => item.HoTen)</td>
+                    <td>@Html.DisplayFor(modelItem => item.TenDangNhap)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Email)</td>
+                    <td>
+                        <span class="badge @(item.VaiTro.TenVaiTro == "Admin" ? "bg-danger" : "bg-primary")">
+                            @Html.DisplayFor(modelItem => item.VaiTro.TenVaiTro)
+                        </span>
+                    </td>
+                    <td>
+                        <span class="badge @(item.TrangThai ? "bg-success" : "bg-warning text-dark")">
+                            @(item.TrangThai ? "Hoạt động" : "Chờ duyệt")
+                        </span>
+                    </td>
+                    <td>@item.NgayTao.ToString("dd/MM/yyyy")</td>
+                    <td class="text-nowrap">
+                        @Html.ActionLink("Chi tiết", "Details", new { id = item.NguoiDungID }, new { @class = "btn btn-sm btn-info text-white me-2" })
+                        @Html.ActionLink("Sửa", "Edit", new { id = item.NguoiDungID }, new { @class = "btn btn-sm btn-warning" })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

@@ -1,0 +1,55 @@
+﻿@using QuanLyKhachSan.Models
+
+@{
+    ViewBag.Title = "Báo Cáo & Thống Kê Chi Tiết";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    var topRooms = (List<Phong>)ViewBag.Top10PhongGiaCao;
+}
+
+<h2>Báo Cáo & Thống Kê Chi Tiết</h2>
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3 bg-dark text-white">
+        <h6 class="m-0 fw-bold"><i class="bi bi-bar-chart-line me-1"></i> Thống kê Doanh Thu (Demo)</h6>
+    </div>
+    <div class="card-body">
+        <p class="text-muted">Đây là nơi tích hợp các biểu đồ doanh thu theo tháng/năm. Để làm được điều này, bạn cần sử dụng thư viện JavaScript như Chart.js và truyền dữ liệu JSON từ Controller.</p>
+    </div>
+</div>
+
+<div class="card shadow mb-4 mt-4">
+    <div class="card-header py-3 bg-warning">
+        <h6 class="m-0 fw-bold text-dark"><i class="bi bi-list-ol me-1"></i> Top 10 Phòng có Giá Cao Nhất</h6>
+    </div>
+    <div class="card-body">
+        @if (topRooms != null && topRooms.Any())
+        {
+            <table class="table table-bordered table-hover">
+                <thead class="table-light">
+                    <tr>
+                        <th>#</th>
+                        <th>Số Phòng</th>
+                        <th>Loại Phòng</th>
+                        <th>Giá Phòng (₫)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{ var count = 1; }
+                    @foreach (var room in topRooms)
+                    {
+                        <tr>
+                            <td>@(count++)</td>
+                            <td>@room.SoPhong</td>
+                            <td>@(room.LoaiPhong?.TenLoai ?? "N/A")</td>
+                            <td><strong>@room.GiaPhong.ToString("N0")</strong></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <p class="text-muted">Không có dữ liệu phòng để hiển thị.</p>
+        }
+    </div>
+</div>

@@ -1,0 +1,165 @@
+﻿@* File: Views/Shared/_AdminLayout.cshtml (ĐÃ SỬA LỖI ĐĂNG XUẤT) *@
+@using System.Web.Mvc.Html
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Admin Dashboard</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+
+    @* NHÚNG CSS CHUNG: Bootstrap 5 và Bootstrap Icons *@
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+
+    <style>
+        /* CSS Sidebar và Content */
+        body {
+            background-color: #f8f9fa;
+            margin: 0;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        .sidebar {
+            height: 100vh;
+            background-color: #343a40;
+            color: white;
+            padding-top: 20px;
+            position: fixed;
+            width: 240px;
+            transition: width 0.3s;
+        }
+
+            .sidebar h3 {
+                text-align: center;
+                margin-bottom: 30px;
+                font-weight: bold;
+                font-size: 1.4rem;
+            }
+
+            /* Áp dụng cho cả liên kết (a) và nút (button) bên trong form */
+            .sidebar a, .sidebar button {
+                color: white;
+                display: flex;
+                align-items: center;
+                padding: 12px 20px;
+                text-decoration: none;
+                font-size: 1rem;
+                white-space: nowrap;
+                overflow: hidden;
+                /* Reset style cho button trong form DangXuat */
+                border: none;
+                background-color: transparent;
+                width: 100%;
+                text-align: left;
+            }
+
+                .sidebar button i {
+                    min-width: 25px; /* Để icon đăng xuất thẳng hàng */
+                    font-size: 1.2rem;
+                }
+
+                .sidebar a:hover, .sidebar button:hover {
+                    background-color: #495057;
+                    border-radius: 5px;
+                }
+
+        .content {
+            margin-left: 240px;
+            padding: 20px;
+            transition: margin-left 0.3s;
+        }
+
+        /* Đảm bảo form đăng xuất không bị ảnh hưởng bởi padding thừa */
+        .sidebar .logout-form {
+            padding: 0 !important;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    @* Cấu trúc chính cho Admin Dashboard *@
+    <div class="d-flex">
+        <div class="sidebar">
+            <h3 class="text-center mb-4">Admin Panel</h3>
+
+            @* ------------------------------------------------------------------ *@
+            @* CÁC LIÊN KẾT CHỨC NĂNG *@
+            @* ------------------------------------------------------------------ *@
+
+            
+            <a href="@Url.Action("Dashboard", "Admin", new { area = "Admin" })">
+                <i class="bi bi-speedometer2 me-2"></i> Dashboard
+            </a>
+
+            <hr style="border-color: rgba(255,255,255,0.2);" />
+
+            
+            <a href="@Url.Action("Index", "Phong", new { area = "Admin" })">
+                <i class="bi bi-house-door me-2"></i> Quản lý Phòng
+            </a>
+
+            
+            <a href="@Url.Action("Index", "LoaiPhong", new { area = "Admin" })">
+                <i class="bi bi-tags me-2"></i> Quản lý Loại Phòng
+            </a>
+
+            
+            <a href="@Url.Action("Index", "DichVu", new { area = "Admin" })">
+                <i class="bi bi-cup-hot me-2"></i> Quản lý Dịch Vụ
+            </a>
+
+            <hr style="border-color: rgba(255,255,255,0.2);" />
+
+            
+            <a href="@Url.Action("Index", "DatPhong", new { area = "Admin" })">
+                <i class="bi bi-calendar-event me-2"></i> Đặt phòng & Check-in
+            </a>
+
+            
+            <a href="@Url.Action("Index", "HoaDon", new { area = "Admin" })">
+                <i class="bi bi-receipt me-2"></i> Hóa đơn
+            </a>
+
+            
+            <a href="@Url.Action("ThongKe", "Admin", new { area = "Admin" })">
+                <i class="bi bi-bar-chart-line me-2"></i> Thống kê
+            </a>
+
+            
+            <a href="@Url.Action("Index", "NguoiDung", new { area = "Admin" })">
+                <i class="bi bi-people me-2"></i> Quản lý Khách hàng
+            </a>
+
+            <hr style="border-color: rgba(255,255,255,0.2);" />
+
+            
+            @* Trỏ về TaiKhoanController ở thư mục gốc (area = "") *@
+            @using (Html.BeginForm("DangXuat", "TaiKhoan", new { area = "" }, FormMethod.Post, new { @class = "logout-form" }))
+            {
+                @Html.AntiForgeryToken()
+                <button type="submit">
+                    <i class="bi bi-box-arrow-right me-2"></i> Đăng xuất
+                </button>
+            }
+        </div> @* Kết thúc Sidebar *@
+
+        @* Phần nội dung chính *@
+        <div class="content flex-grow-1">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2>@ViewBag.Title</h2> @* Tiêu đề tự động theo từng View *@
+                <span>Xin chào, <strong>@Session["HoTen"]</strong></span>
+            </div>
+
+            @RenderBody() @* Nội dung chính sẽ được đặt ở đây *@
+        </div>
+    </div>
+
+    @* NHÚNG SCRIPTS *@
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

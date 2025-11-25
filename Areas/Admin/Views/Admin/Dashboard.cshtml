@@ -1,0 +1,107 @@
+﻿@{
+    ViewBag.Title = "Tổng Quan Hệ Thống";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="container-fluid">
+    @if (ViewBag.ErrorMessage != null)
+    {
+        <div class="alert alert-danger" role="alert">
+            <i class="bi bi-exclamation-triangle me-2"></i> @ViewBag.ErrorMessage
+        </div>
+    }
+
+    <h3 class="mb-4">Số Liệu Tổng Hợp Hôm Nay</h3>
+    <div class="row">
+
+        @* Thẻ 1: Tổng Khách hàng *@
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-primary shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col me-2">
+                            <div class="text-xs fw-bold text-primary text-uppercase mb-1">
+                                Tổng Khách Hàng
+                            </div>
+                            <div class="h5 mb-0 fw-bold text-gray-800">@ViewBag.TongKhachHang</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="bi bi-person-check-fill fs-2 text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        @* Thẻ 2: Tổng Phòng *@
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-success shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col me-2">
+                            <div class="text-xs fw-bold text-success text-uppercase mb-1">
+                                Tổng Số Phòng
+                            </div>
+                            <div class="h5 mb-0 fw-bold text-gray-800">@ViewBag.TongPhong</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="bi bi-door-open fs-2 text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        @* Thẻ 3: Đặt Phòng Hôm Nay *@
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-info shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col me-2">
+                            <div class="text-xs fw-bold text-info text-uppercase mb-1">
+                                Đặt Phòng Mới Hôm Nay
+                            </div>
+                            <div class="h5 mb-0 fw-bold text-gray-800">@ViewBag.DatPhongHomNay</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="bi bi-calendar-check fs-2 text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        @* Thẻ 4: Doanh thu Hôm Nay *@
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-warning shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col me-2">
+                            <div class="text-xs fw-bold text-warning text-uppercase mb-1">
+                                Doanh Thu Hôm Nay
+                            </div>
+                            <div class="h5 mb-0 fw-bold text-gray-800">@(((decimal)ViewBag.DoanhThuHomNay).ToString("N0")) ₫</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="bi bi-currency-dollar fs-2 text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @* Có thể thêm biểu đồ hoặc bảng thống kê chi tiết ở đây *@
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 fw-bold text-primary">Biểu đồ tổng quan (Cần tích hợp thư viện ChartJS/Plotly)</h6>
+                </div>
+                <div class="card-body">
+                    <p class="text-muted">Bạn có thể tích hợp thư viện biểu đồ tại đây (ví dụ: Chart.js) để hiển thị doanh thu theo tháng hoặc số lượng phòng đã đặt.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

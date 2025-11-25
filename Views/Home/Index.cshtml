@@ -1,0 +1,97 @@
+﻿@{
+    ViewBag.Title = "Trang Chủ - Khách Sạn ABC";
+}
+
+<main>
+
+    @* --- 1. PHẦN BANNER CHÀO MỪNG VÀ FORM TÌM KIẾM --- *@
+    <section class="hero-section text-white text-center d-flex align-items-center justify-content-center"
+             style="background-image: url('@Url.Content("~/Content/image/banner_khachsan.jpg")'); background-size: cover; background-position: center; height: 550px; position: relative; border-radius: 0 0 10px 10px;">
+
+        @* Lớp phủ mờ cho dễ đọc chữ *@
+        <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(0, 0, 0, 0.4);"></div>
+
+        <div class="container text-center" style="z-index: 1;">
+            <h1 class="display-3 fw-bolder mb-3 animate__fadeInDown">Chào mừng đến với Khách Sạn ABC</h1>
+            <p class="lead mb-5 fs-5 animate__fadeInUp">Trải nghiệm dịch vụ đẳng cấp, tiện nghi sang trọng và không gian nghỉ dưỡng tuyệt vời.</p>
+
+            @* FORM TÌM KIẾM PHÒNG NỔI BẬT *@
+            @using (Html.BeginForm("Search", "Booking", FormMethod.Get, new { @class = "p-4 bg-white rounded-3 shadow-lg d-inline-block text-dark **opacity-95**" }))
+            {
+                <div class="row g-3 align-items-end">
+
+                    @* Ngày Check-in *@
+                    <div class="col-md-3">
+                        <label for="checkIn" class="form-label text-start d-block fw-bold small"><i class="fas fa-calendar-alt me-1"></i> Nhận phòng</label>
+                        <input type="date" id="checkIn" name="checkIn" class="form-control form-control-lg" required>
+                    </div>
+
+                    @* Ngày Check-out *@
+                    <div class="col-md-3">
+                        <label for="checkOut" class="form-label text-start d-block fw-bold small"><i class="fas fa-calendar-check me-1"></i> Trả phòng</label>
+                        <input type="date" id="checkOut" name="checkOut" class="form-control form-control-lg" required>
+                    </div>
+
+                    @* Số lượng Khách *@
+                    <div class="col-md-3">
+                        <label for="guests" class="form-label text-start d-block fw-bold small"><i class="fas fa-users me-1"></i> Số khách</label>
+                        <input type="number" id="guests" name="guests" class="form-control form-control-lg" value="1" min="1" required>
+                    </div>
+
+                    @* Nút Tìm kiếm *@
+                    <div class="col-md-3">
+                        <button type="submit" class="btn btn-primary w-100 **btn-lg** fw-bold shadow-sm">Tìm Phòng Ngay</button>
+                    </div>
+                </div>
+            }
+        </div>
+    </section>
+
+    <div class="container my-5">
+        <h2 class="text-center mb-4 fw-bold">Dịch Vụ Nổi Bật</h2>
+        <p class="text-center text-muted mb-5">Mang đến trải nghiệm lưu trú vượt trội với sự tiện nghi và chất lượng dịch vụ hàng đầu.</p>
+
+        @* --- 2. PHẦN DỊCH VỤ NỔI BẬT (Dùng Bootstrap Card) --- *@
+        <div class="row g-4">
+
+            @* Dịch vụ 1: Các Loại Phòng *@
+            <section class="col-md-4" aria-labelledby="roomTypesTitle">
+                <div class="card shadow-lg border-0 h-100 text-center p-3">
+                    <div class="card-body d-flex flex-column align-items-center">
+                        <i class="fas fa-bed fa-4x text-primary mb-3"></i>
+                        <h3 id="roomTypesTitle" class="card-title text-primary fw-bold">Phòng & Tiện nghi</h3>
+                        <p class="card-text text-muted">
+                            Khám phá các loại phòng đa dạng, được trang bị đầy đủ tiện nghi cao cấp, mang lại trải nghiệm nghỉ dưỡng tuyệt vời nhất.
+                        </p>
+                        @Html.ActionLink("Xem Chi Tiết Phòng", "Index", "Room", null, new { @class = "btn btn-outline-primary mt-auto" })
+                    </div>
+                </div>
+            </section>
+
+            @* Dịch vụ 2: Đặt phòng Online *@
+            <section class="col-md-4" aria-labelledby="onlineBookingTitle">
+                <div class="card shadow-lg border-0 h-100 text-center p-3">
+                    <div class="card-body d-flex flex-column align-items-center">
+                        <i class="fas fa-laptop-house fa-4x text-primary mb-3"></i>
+                        <h3 id="onlineBookingTitle" class="card-title text-primary fw-bold">Đặt phòng Dễ dàng</h3>
+                        <p class="card-text text-muted">Sử dụng hệ thống đặt phòng trực tuyến nhanh chóng. Kiểm tra phòng trống theo thời gian thực và thanh toán an toàn chỉ trong vài bước.</p>
+                        @Html.ActionLink("Đặt Phòng Ngay", "Search", "Booking", null, new { @class = "btn btn-primary mt-auto" })
+                    </div>
+                </div>
+            </section>
+
+            @* Dịch vụ 3: Đánh giá *@
+            <section class="col-md-4" aria-labelledby="feedbackTitle">
+                <div class="card shadow-lg border-0 h-100 text-center p-3">
+                    <div class="card-body d-flex flex-column align-items-center">
+                        <i class="fas fa-comment-dots fa-4x text-primary mb-3"></i>
+                        <h3 id="feedbackTitle" class="card-title text-primary fw-bold">Khách hàng Nói gì</h3>
+                        <p class="card-text text-muted">Đọc các đánh giá và phản hồi chân thực từ khách hàng đã lưu trú. Chất lượng dịch vụ là ưu tiên hàng đầu của chúng tôi.</p>
+                        @Html.ActionLink("Xem Đánh giá", "Index", "Feedback", null, new { @class = "btn btn-outline-primary mt-auto" })
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </div>
+</main>

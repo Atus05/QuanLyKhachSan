@@ -1,0 +1,69 @@
+﻿@model QuanLyKhachSan.Models.Phong
+
+@{
+    ViewBag.Title = "Thêm Phòng Mới";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Thêm Phòng Mới</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="card p-4 shadow-sm">
+        @Html.ValidationSummary(true, "", new { @class = "alert alert-danger" })
+
+        @* Trường Số Phòng *@
+        <div class="mb-3 row">
+            @Html.LabelFor(model => model.SoPhong, htmlAttributes: new { @class = "col-md-3 col-form-label" })
+            <div class="col-md-9">
+                @Html.EditorFor(model => model.SoPhong, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.SoPhong, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        @* Trường Loại Phòng (Dropdown) *@
+        <div class="mb-3 row">
+            @Html.LabelFor(model => model.LoaiPhongId, "Loại Phòng", new { @class = "col-md-3 col-form-label" })
+            <div class="col-md-9">
+                @Html.DropDownList("LoaiPhongId", null, "--- Chọn Loại Phòng ---", htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.LoaiPhongId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        @* Trường Giá Phòng *@
+        <div class="mb-3 row">
+            @Html.LabelFor(model => model.GiaPhong, htmlAttributes: new { @class = "col-md-3 col-form-label" })
+            <div class="col-md-9">
+                @Html.EditorFor(model => model.GiaPhong, new { htmlAttributes = new { @class = "form-control", @type = "number", @min = "0" } })
+                @Html.ValidationMessageFor(model => model.GiaPhong, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        @* Trường Mô Tả *@
+        <div class="mb-3 row">
+            @Html.LabelFor(model => model.MoTa, htmlAttributes: new { @class = "col-md-3 col-form-label" })
+            <div class="col-md-9">
+                @Html.TextAreaFor(model => model.MoTa, new { @class = "form-control", rows = 3 })
+                @Html.ValidationMessageFor(model => model.MoTa, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        @* Trường Tình Trạng (Mặc định là Trống/Sẵn sàng) *@
+        @Html.HiddenFor(model => model.TinhTrang, new { @value = "Trống" })
+
+        <div class="mb-3 row">
+            <div class="col-md-9 offset-md-3">
+                <button type="submit" class="btn btn-success me-2">
+                    <i class="bi bi-save me-1"></i> Lưu lại
+                </button>
+                @Html.ActionLink("Trở về Danh sách", "Index", null, new { @class = "btn btn-secondary" })
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

@@ -1,0 +1,82 @@
+﻿@model IEnumerable<QuanLyKhachSan.Models.LoaiPhong>
+
+@{
+    ViewBag.Title = "Quản lý Loại Phòng";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Quản lý Loại Phòng</h2>
+
+<p>
+    @Html.ActionLink("➕ Thêm Loại Phòng Mới", "Create", null, new { @class = "btn btn-primary mb-3" })
+</p>
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success" role="alert">
+        @TempData["SuccessMessage"]
+    </div>
+}
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger" role="alert">
+        @TempData["ErrorMessage"]
+    </div>
+}
+
+<div class="table-responsive">
+    <table class="table table-bordered table-hover shadow-sm">
+        <thead class="table-dark">
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.TenLoai)</th>
+                <th>@Html.DisplayNameFor(model => model.MoTa)</th>
+                <th>Thao tác</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => item.TenLoai)</td>
+                    <td>@Html.DisplayFor(modelItem => item.MoTa)</td>
+                    <td class="text-nowrap">
+                        @Html.ActionLink("Sửa", "Edit", new { id = item.LoaiPhongId }, new { @class = "btn btn-sm btn-warning me-2" })
+
+                        @* Nút Xóa (sử dụng AJAX/JavaScript để xác nhận, hoặc form POST) *@
+                        <button type="button" class="btn btn-sm btn-danger btn-delete"
+                                data-id="@item.LoaiPhongId" data-tenloai="@item.TenLoai">
+                            Xóa
+                        </button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@section scripts {
+    <script>
+        $(document).ready(function () {
+            $('.btn-delete').click(function () {
+                var loaiPhongId = $(this).data('id');
+                var tenLoai = $(this).data('tenloai');
+
+                if (confirm('Bạn có chắc chắn muốn xóa Loại Phòng: ' + tenLoai + ' không? Thao tác này có thể ảnh hưởng đến các Phòng liên quan.')) {
+                    // Thực hiện POST request tới action DeleteConfirmed
+                    $.post('@Url.Action("DeleteConfirmed", "LoaiPhong")', { id: loaiPhongId })
+                        .done(function (response) {
+                            if (response.success) {
+                                window.location.reload(); // Tải lại trang sau khi xóa thành công
+                            } else {
+                                alert('Lỗi khi xóa: ' + response.message);
+                            }
+                        })
+                        .fail(function (xhr, status, error) {
+                            alert('Đã xảy ra lỗi hệ thống: ' + error);
+                        });
+                }
+            });
+        });
+    </script>
+}
